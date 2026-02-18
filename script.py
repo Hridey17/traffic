@@ -4,12 +4,9 @@ from datetime import datetime
 import time
 import os
 
-# Get API key from GitHub Secret
 API_KEY = os.getenv("TOMTOM_API_KEY")
-
 FLOW_URL = "https://api.tomtom.com/traffic/services/4/flowSegmentData/absolute/10/json"
 
-# SZR SEGMENTS
 segments = [
     {"segment_id": "Segment 1", "name": "World Trade Centre", "lat": 25.2262, "lon": 55.2870},
     {"segment_id": "Segment 2", "name": "DIFC", "lat": 25.2136, "lon": 55.2796},
@@ -20,16 +17,10 @@ segments = [
 FILE_NAME = "szr_traffic_data.csv"
 
 def get_flow_data(segment):
-    params = {
-        "point": f"{segment['lat']},{segment['lon']}",
-        "key": API_KEY
-    }
-
     try:
-        response = requests.get(FLOW_URL, params=params, timeout=30)
-        data = response.json()
+        params = {"point": f"{segment['lat']},{segment['lon']}", "key": API_KEY}
+        data = requests.get(FLOW_URL, params=params, timeout=30).json()
         fsd = data.get("flowSegmentData", {})
-
         return {
             "timestamp": datetime.utcnow(),
             "segment_id": segment["segment_id"],
@@ -42,13 +33,10 @@ def get_flow_data(segment):
             "free_flow_travel_time_sec": fsd.get("freeFlowTravelTime"),
             "confidence": fsd.get("confidence")
         }
-
     except Exception as e:
         print(f"Error fetching {segment['name']}: {e}")
         return None
 
-
-# Run once (GitHub will schedule it)
 print("🚦 SZR Traffic Data Collection Triggered")
 
 records = []
@@ -56,20 +44,16 @@ records = []
 for seg in segments:
     print(f"Fetching {seg['name']} at {datetime.utcnow()}")
     data = get_flow_data(seg)
-
     if data:
         records.append(data)
+    time.sleep(1)
 
-    time.sleep(1)  # avoid rapid API hits
-
-if len(records) > 0:
+if records:
     df = pd.DataFrame(records)
-
-    if not os.path.isfile(FILE_NAME):
-        df.to_csv(FILE_NAME, index=False)
+    if os.path.isfile(FILE_NAME):
+        df.to_csv(FILE_NAME, mode="a", header=False, index=False)
     else:
-        df.to_csv(FILE_NAME, mode='a', header=False, index=False)
-
-    print("✅ Data saved successfully.")
+        df.to_csv(FILE_NAME, index=False)
+    print(f"✅ Data appended to {FILE_NAME}")
 else:
-    print("⚠️ No data collected.")
+    print("⚠️ No data collected")
