@@ -1,0 +1,5 @@
+timestamp,segment_id,segment_name,latitude,longitude,current_speed_kmh,free_flow_speed_kmh,current_travel_time_sec,free_flow_travel_time_sec,confidence
+2026-02-18 23:32:41.991870,Segment 1,World Trade Centre,25.2262,55.287,11,52,195,41,1
+2026-02-18 23:32:43.186224,Segment 2,DIFC,25.2136,55.2796,95,104,445,407,1
+2026-02-18 23:32:44.397747,Segment 3,Business Bay,25.1872,55.2644,24,24,141,141,1
+2026-02-18 23:32:45.592835,Segment 4,MOE,25.1182,55.2006,36,36,497,497,1
