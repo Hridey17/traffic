@@ -2,7 +2,7 @@ name: SZR Traffic Collector
 
 on:
   schedule:
-    - cron: "*/5 * * * *"   
+    - cron: "*/10 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -26,10 +26,11 @@ jobs:
           TOMTOM_API_KEY: ${{ secrets.TOMTOM_API_KEY }}
         run: python script.py
 
-      - name: Commit CSV
+      - name: Commit CSV safely
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
+          git pull --rebase origin main || echo "Nothing to pull"
           git add szr_traffic_data.csv
-          git commit -m "Auto update traffic data" || echo "No changes"
-          git push
+          git commit -m "Auto append traffic data" || echo "No changes to commit"
+          git push origin main
