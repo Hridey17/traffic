@@ -1,0 +1,35 @@
+name: SZR Traffic Collector
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # Runs every 10 minutes
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - run: pip install -r requirements.txt
+
+      - name: Run script
+        env:
+          TOMTOM_API_KEY: ${{ secrets.TOMTOM_API_KEY }}
+        run: python script.py
+
+      - name: Commit CSV
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add szr_traffic_data.csv
+          git commit -m "Auto update traffic data" || echo "No changes"
+          git push
