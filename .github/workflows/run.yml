@@ -2,7 +2,7 @@ name: SZR Traffic Collector
 
 on:
   schedule:
-    - cron: "*/10 * * * *"   # Runs every 10 minutes
+    - cron: "*/5 * * * *"   
   workflow_dispatch:
 
 jobs:
