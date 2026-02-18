@@ -1,9 +1,1 @@
-timestamp,segment_id,segment_name,latitude,longitude,current_speed_kmh,free_flow_speed_kmh,current_travel_time_sec,free_flow_travel_time_sec,confidence
-2026-02-18 22:57:59.450822,Segment 1,World Trade Centre,25.2262,55.287,30,52,71,41,1
-2026-02-18 22:58:00.570932,Segment 2,DIFC,25.2136,55.2796,91,105,465,403,1
-2026-02-18 22:58:01.695592,Segment 3,Business Bay,25.1872,55.2644,24,24,141,141,1
-2026-02-18 22:58:02.817357,Segment 4,MOE,25.1182,55.2006,36,36,497,497,1
-2026-02-18 23:18:56.517209,Segment 1,World Trade Centre,25.2262,55.287,7,52,307,41,1
-2026-02-18 23:18:57.712162,Segment 2,DIFC,25.2136,55.2796,93,104,455,407,1
-2026-02-18 23:18:58.878375,Segment 3,Business Bay,25.1872,55.2644,24,24,141,141,1
-2026-02-18 23:19:00.067156,Segment 4,MOE,25.1182,55.2006,36,36,497,497,1
+
